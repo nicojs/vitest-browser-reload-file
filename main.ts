@@ -8,12 +8,7 @@ const context = await createVitest("test", {});
 const tmpDir = await fs.mkdtemp("./node_modules/tmp-vitest-");
 const setupFile = path.resolve(tmpDir, "setup.js");
 
-await fs.writeFile(
-  setupFile,
-  `
-globalThis.id = '1';
-`
-);
+await fs.writeFile(setupFile, "globalThis.id = '1';");
 context.config.setupFiles = [setupFile];
 context.config.deps.inline = [setupFile];
 context.projects[0].config.setupFiles = [setupFile];
@@ -21,12 +16,8 @@ context.projects[0].config.deps.inline = [setupFile];
 
 await runAndReport();
 
-await fs.writeFile(
-  setupFile,
-  `
-  globalThis.id = '2';
-  `
-);
+await fs.writeFile(setupFile, "globalThis.id = '2';");
+
 // Invalide setup file
 const module = context.projects[0].server.moduleGraph.getModuleById(setupFile);
 if (module) {
